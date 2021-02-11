@@ -1,0 +1,22 @@
+{
+  "name": "apitiendas",
+  "version": "1.0.0",
+  "description": "Consultando api tiendas",
+  "main": "./js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facuruku/ConsultadoAPItiendas.git"
+  },
+  "author": "Facu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/facuruku/ConsultadoAPItiendas/issues"
+  },
+  "homepage": "https://github.com/facuruku/ConsultadoAPItiendas#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
