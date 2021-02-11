@@ -8,15 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/facuruku/ConsultadoAPItiendas.git"
+    "url": "git+https://github.com/facuruku/ConsultandoAPItiendas.git"
   },
   "author": "Facu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/facuruku/ConsultadoAPItiendas/issues"
+    "url": "https://github.com/facuruku/ConsultandoAPItiendas/issues"
   },
-  "homepage": "https://github.com/facuruku/ConsultadoAPItiendas#readme",
+  "homepage": "https://github.com/facuruku/ConsultandoAPItiendas#readme",
   "devDependencies": {
-    "gulp": "^4.0.2"
-  }
+    "browser-sync": "^2.26.14",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0"
+  },
+  "dependencies": {}
 }
