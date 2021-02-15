@@ -1,5 +1,6 @@
-$bgColor: black;
+$bgColor: rgb(8, 68, 26);
 $txtColor: white;
+$errorColor:red;
 
 html,body{
     margin:0px;
@@ -7,6 +8,48 @@ html,body{
 }
 
 header{
-    color:white;
+    color:rgb(240, 204, 0);
     background-color: $bgColor;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.contenido{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    height: 95%;
+}
+
+.tiendas{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 80%;
+}
+
+#tienda{
+    border: solid 1px $bgColor;
+    border-radius: 10px 10px;
+    box-shadow: 2px 2px 5px lighten($bgColor,60%);
+    padding: 10px;
+    margin: 10px;
+    h2{
+        color:$bgColor;
+    }
+}
+
+.metodo{
+    display: flex;
+    flex-flow: column nowrap;
+    margin-top: 10%;
+}
+
+#carga{
+    display: none;
+    width: 40px;
+}
+
+#error{
+    color: $errorColor;
 }
