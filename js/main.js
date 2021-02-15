@@ -12,11 +12,12 @@ function ocultarLoader() {
 }
 
 var tiendas = [];
-
+var metodoElegido = "";
 
 const xhrButton = document.querySelector("#xhr");
 xhrButton.addEventListener("click", getTiendasXHR, false);
 function getTiendasXHR(){
+    metodoElegido = "xhr";
 
     const client = new XMLHttpRequest();
 
@@ -27,14 +28,14 @@ function getTiendasXHR(){
             tiendas = JSON.parse(client.responseText);
             // console.log(tiendas);
         }else{
-            console.log("readyState:"+client.readyState);
-            console.log("Status:"+client.status);
+            //console.log("readyState:"+client.readyState);
+            //console.log("Status:"+client.status);
         }
             
     });
 
     client.send();
-    return console.log(tiendas);
+    return tiendas;
 
 }
 
@@ -56,6 +57,8 @@ fetchButton.addEventListener("click",getTiendasFetch,false);
 
 function getTiendasFetch() {
 
+    metodoElegido = "fetch";
+
     const options = {
         method: "GET"
     };
@@ -74,14 +77,14 @@ function getTiendasFetch() {
             .then(data => {
                     const json = JSON.parse(data);
                     tiendas = JSON.parse(data);
-                    console.log(json);
+                    //console.log(json);
 
             })
             .catch(err => {
                 console.error("ERROR: ", err.message)
             });
     }catch(Exception){
-        console.log("error mi niño");
+        console.log("error");
 
     }
 }
@@ -94,12 +97,12 @@ const jQueryButton = document.querySelector("#jquery");
 jQueryButton.addEventListener("click",getTiendasjQuery,false);
 
 function getTiendasjQuery(){
+    
+    metodoElegido = "jquery";
 
-    loading = $("#carga").hide();
 
     // document.querySelector(".metodo").style.display = "none";
     // document.querySelector("#carga").style.display = "block";
-
 
     $.ajax({
         type: "GET",
@@ -118,7 +121,7 @@ function getTiendasjQuery(){
         complete: () => {
             console.log("complete");
             ocultarLoader();
-            mostrarTiendas();
+            mostrarTiendas(tiendas);
         },
         error: () => {
             
@@ -139,21 +142,64 @@ function getTiendasjQuery(){
     return tiendas;
 }
 
-function quitarMetodo(){
-    document.querySelector(".metodo").remove();
+function getTiendajQuery(idTienda){
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: tiendaURL+"/"+idTienda,
+        timeout: 10000,
+        beforeSend: () => {
+            mostrarLoader();
+            console.log("no empezo");
+        },
+        success: data => {
+            console.log("success");
+            // en data tenemos lo recibido
+            tiendas = [data];
+            console.log(tiendas)
+        },
+        complete: () => {
+            console.log("complete");
+            ocultarLoader();
+            mostrarTiendas(tiendas);
+        },
+        error: () => {
+            document.getElementById("carga").style.display = "none";
+        },
+        always: () => {
+            ocultarLoader();
+            alert("complete");
+        }
+    });
+
 }
-function mostrarTiendas(){
 
-    if (tiendas == null) {
-        console.log("no hay tiendas");
+function quitarMetodo(){
+    if (document.querySelector(".metodo") != null){
+        document.querySelector(".metodo").remove();
+    }
+}
+const contenidoContainer = document.querySelector(".contenido");
+
+function mostrarTiendas(tiendas){
+
+    if (document.querySelector(".tiendas") != null) {
+        document.querySelector(".tiendas").remove();
+    }
+
+    if (tiendas.length == 0) {
+        alert("No existe la tienda especificada");
+
     }else{
-        console.log(tiendas);
         quitarMetodo();
-
+        if(!document.querySelector("#menu").childElementCount > 0){
+            mostrarMenu();
+        }
         var cajaTiendas = crearNodo("div", "", ["tiendas"], []);
 
         tiendas.forEach(tienda => {
-            console.log(tienda)
+
             let tiendaNodo = crearNodo("div","",[],[{"name":"id","value":"tienda"}]);
             tiendaNodo.appendChild(crearNodo("h2",tienda.nombreTienda,[],[]));
             tiendaNodo.appendChild(crearNodo("p",tienda.direccion+" ("+tienda.localidad+")",[],[]));
@@ -161,11 +207,72 @@ function mostrarTiendas(){
 
             cajaTiendas.appendChild(tiendaNodo);
 
-            document.querySelector(".contenido").appendChild(cajaTiendas);
-
+            contenidoContainer.appendChild(cajaTiendas);
+            
         });
+        tiendas.splice(0, tiendas.length);
+        
     }
+}
+function mostrarMenu(){
 
+    let newTiendaButton = crearNodo("p", "Nueva Tienda", [], [{
+        "name": "id",
+        "value": "nuevaTiendaButton"
+    }]);
+    newTiendaButton.addEventListener("click", mostrarFormulario, false);
+    document.querySelector("#menu").appendChild(newTiendaButton);
+
+    let buscadorContainer = crearNodo("div","",["buscador"],[]);
+
+    let buscadorInput = crearNodo("input", "", [], [{
+        "name": "id",
+        "value": "buscadorInput"
+    }]);
+    buscadorInput.setAttribute("placeholder","ID de Tienda");
+    buscadorInput.setAttribute("value","");
+    let buscadorButton = crearNodo("img","",[],[{
+        "name":"src",
+        "value":"./img/buscar.png"
+    }]);
+    buscadorButton.addEventListener("click",buscarTienda,false);
+    buscadorContainer.appendChild(buscadorInput);
+    buscadorContainer.appendChild(buscadorButton);
+    document.querySelector("#menu").appendChild(buscadorContainer);
+
+}
+
+function nuevaTienda(){
+
+    
+}
+
+function mostrarFormulario(){
+
+}
+
+function buscarTienda(){
+
+    let idTiendaInput = document.getElementById("buscadorInput").value
+    let numValidos = new RegExp("^[0-9]+$");
+
+    if(!numValidos.test(idTiendaInput)){
+
+        if (idTiendaInput == "") {
+            getTiendasjQuery();
+        }else{
+            alert("ID de Tienda inválido");
+
+        }
+
+    }else{
+        
+        getTiendajQuery(idTiendaInput);
+        //buscar tienda
+
+
+    }
+   
 }
 
 
