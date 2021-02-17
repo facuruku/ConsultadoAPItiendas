@@ -29,7 +29,18 @@ header{
         button{
             border-color: $bgColor;
             margin: 10px;
+            background-color: lighten($bgColor, 60%);
+            color:$bgColor;
+            font-weight: bold;
         }
+        button:hover{
+            background-color: lighten($bgColor, 50%);
+        }
+        button:active{
+            background-color: $bgColor;
+            color: $txtColor;
+        }
+
     }
     #menu{
         display: flex;

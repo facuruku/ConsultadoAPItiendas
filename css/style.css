@@ -20,7 +20,15 @@ header {
     margin-top: 10%; }
     .contenido .metodo button {
       border-color: #08441a;
-      margin: 10px; }
+      margin: 10px;
+      background-color: #8cf2ab;
+      color: #08441a;
+      font-weight: bold; }
+    .contenido .metodo button:hover {
+      background-color: #5fec89; }
+    .contenido .metodo button:active {
+      background-color: #08441a;
+      color: white; }
   .contenido #menu {
     display: flex;
     flex-flow: row nowrap;
