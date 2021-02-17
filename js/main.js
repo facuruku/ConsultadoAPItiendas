@@ -64,6 +64,7 @@ function getTiendaXHR(idTienda){
             mostrarTiendas(tienda);
         } else {
             if(client.status == 204){
+                ocultarLoader();
                 mostrarTiendas([]);
             }
         }
@@ -187,6 +188,10 @@ function getTiendasjQuery(){
 function getTiendajQuery(idTienda){
 
     var tienda=[];
+
+     if (document.querySelector(".tiendas") != null) {
+         document.querySelector(".tiendas").remove();
+     }
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -334,7 +339,7 @@ function buscarTienda(){
                 break;
             case "fetch": getTiendaFetch(idTiendaInput);
                 break;
-            case "jquery": mostrarTiendas(getTiendajQuery(idTiendaInput));
+            case "jquery": getTiendajQuery(idTiendaInput);
                 break;
         }
     }
