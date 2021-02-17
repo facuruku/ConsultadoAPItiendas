@@ -268,7 +268,6 @@ function mostrarTiendas(tiendas){
             contenidoContainer.appendChild(cajaTiendas);
 
         });
-
     }
         
     
