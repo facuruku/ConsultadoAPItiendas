@@ -2,10 +2,8 @@ export var jqueryAJAX ={
     
     getTiendasjQuery(tiendaURL) {
 
-
         // document.querySelector(".metodo").style.display = "none";
         // document.querySelector("#carga").style.display = "block";
-
 
         $.ajax({
             type: "GET",

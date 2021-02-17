@@ -52,7 +52,18 @@ header {
 
 #carga {
   display: none;
-  width: 40px; }
+  width: 40px;
+  animation-name: girar;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-duration: 1.5s;
+  animation-timing-function: linear; }
+
+@keyframes girar {
+  from {
+    transform: rotate(-360deg); }
+  to {
+    transform: rotate(0deg); } }
 
 #error {
   color: red; }
