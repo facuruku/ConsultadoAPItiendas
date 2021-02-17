@@ -25,6 +25,11 @@ header{
         display: flex;
         flex-flow: column nowrap;
         margin-top: 10%;
+
+        button{
+            border-color: $bgColor;
+            margin: 10px;
+        }
     }
     #menu{
         display: flex;

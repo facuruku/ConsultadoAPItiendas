@@ -18,6 +18,9 @@ header {
     display: flex;
     flex-flow: column nowrap;
     margin-top: 10%; }
+    .contenido .metodo button {
+      border-color: #08441a;
+      margin: 10px; }
   .contenido #menu {
     display: flex;
     flex-flow: row nowrap;
