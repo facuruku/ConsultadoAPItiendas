@@ -151,7 +151,10 @@ jQueryButton.addEventListener("click",getTiendasjQuery,false);
 function getTiendasjQuery(){
     
     metodoElegido = "jquery";
-    var tiendas = null;
+    var tiendas = [];
+    if (document.querySelector(".tiendas") != null) {
+        document.querySelector(".tiendas").remove();
+    }
 
     $.ajax({
         type: "GET",
@@ -192,6 +195,7 @@ function getTiendajQuery(idTienda){
      if (document.querySelector(".tiendas") != null) {
          document.querySelector(".tiendas").remove();
      }
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -208,9 +212,6 @@ function getTiendajQuery(idTienda){
         complete: () => {
             ocultarLoader();
             mostrarTiendas(tienda);
-        },
-        always: () => {
-            alert("complete");
         }
     });
 
