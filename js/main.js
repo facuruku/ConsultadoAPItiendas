@@ -9,6 +9,12 @@ function ocultarLoader() {
     document.querySelector("#carga").style.display = "none";
 }
 
+function quitarElegirMetodo() {
+    if (document.querySelector(".metodo") != null) {
+        document.querySelector(".metodo").remove();
+    }
+}
+
 var metodoElegido = "";
 
 const xhrButton = document.querySelector("#xhr");
@@ -24,10 +30,8 @@ function getTiendasXHR(){
      }
     mostrarLoader();
 
-
     var tiendas = [];
     const client = new XMLHttpRequest();
-
 
     client.addEventListener("readystatechange", () => {
         if (client.readyState == 4 && client.status == 200){
@@ -50,7 +54,6 @@ function getTiendaXHR(idTienda){
     if (document.querySelector(".tiendas") != null) {
         document.querySelector(".tiendas").remove();
     }
-
     mostrarLoader();
 
     var tienda = [];
@@ -69,18 +72,22 @@ function getTiendaXHR(idTienda){
             }
         }
     });
-
     client.open("GET", tiendasURL+"/"+idTienda, true);
     client.send();
 
     return tienda;
 }
 
+function postTiendaXHR(tiendaJSON) {
+
+}
+
+
+
 
 //FETCH
 const fetchButton = document.querySelector("#fetch");
 fetchButton.addEventListener("click",getTiendasFetch,false);
-
 
 function getTiendasFetch() {
     metodoElegido = "fetch";
@@ -108,7 +115,6 @@ function getTiendasFetch() {
             console.error("No se pudo recuperar la tienda:" + err);
             mostrarTiendas([]);
         });
-       
 }
 
 function getTiendaFetch(idTienda){
@@ -137,11 +143,11 @@ function getTiendaFetch(idTienda){
             console.error("No se pudo recuperar la tienda:"+err);
             mostrarTiendas([]);
         });
-    
-   
 }
 
+function postTiendaFetch(tiendaJSON){
 
+}
 
 // jQuery
 
@@ -178,14 +184,8 @@ function getTiendasjQuery(){
             ocultarLoader();
             document.querySelector(".metodo").style.display = "flex";
             console.log("error en la peticion");
-        },
-        always: () => {
-            ocultarLoader();
-            alert("complete");
         }
     });
-
-    return tiendas;
 }
 
 function getTiendajQuery(idTienda){
@@ -207,26 +207,36 @@ function getTiendajQuery(idTienda){
         success: data => {
             // en data tenemos lo recibido
             tienda.push(data);
-
         }, 
         complete: () => {
             ocultarLoader();
             mostrarTiendas(tienda);
         }
     });
+}
 
+function postTiendajQuery(tienda){
 
-    return tienda;
+    var request = $.ajax({
+        url: tiendasURL,
+        type: "post",
+        data: JSON.stringify(tienda),
+        dataType: "json"
+    });
+
+    request.done(function (msg) {
+        console.log(msg);
+    });
+
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
+
 }
 
 
-function quitarElegirMetodo(){
-    if (document.querySelector(".metodo") != null){
-        document.querySelector(".metodo").remove();
-    }
-}
+
 const contenidoContainer = document.querySelector(".contenido");
-
 
 function mostrarTiendas(tiendas){
 
@@ -270,9 +280,8 @@ function mostrarTiendas(tiendas){
 
         });
     }
-        
-    
 }
+
 function mostrarMenu(){
 
     let newTiendaButton = crearNodo("p", "Nueva Tienda", [], [{
@@ -301,13 +310,116 @@ function mostrarMenu(){
 
 }
 
-function nuevaTienda(){
-
-    
-}
 
 function mostrarFormulario(){
+    let formTemplate = document.querySelector("#form-template");
+    let form = document.importNode(formTemplate.content, true);
+    if(document.querySelector(".form") == null){
 
+        document.querySelector(".contenido").insertBefore(form, document.querySelector(".tiendas"));
+        document.querySelector(".form").style.webkitAnimationPlayState = "running";
+        document.querySelector(".form button").addEventListener("click",addTienda,false);
+        
+        const nombre = document.getElementById("nombre");
+        nombre.addEventListener("input", function () {
+            validarCampo(nombre, "");
+
+        }, false);
+
+        const direccion = document.getElementById("direccion");
+        direccion.addEventListener("input", function () {
+        validarCampo(direccion,"");
+        }, false);
+
+        const telefono = document.getElementById("telefono");
+        telefono.addEventListener("input", function () {
+            validarCampo(telefono,"El teléfono ha de tener 9 cifras y empezar por 6, 8 o 9")
+        }, false);
+
+        const localidad = document.getElementById("localidad");
+        localidad.addEventListener("input", function () {
+            validarCampo(localidad, "");
+        },false);
+
+    }
+}
+
+function validarForm(){
+    var esValido = true;
+    
+    if(!validarCampo(document.getElementById("nombre"),"")){
+        esValido = false;
+    }
+    if(!validarCampo(document.getElementById("direccion"),"")){
+        esValido = false;
+    }
+    if(!validarCampo(document.getElementById("localidad"),"")){
+        esValido = false;
+    }
+    if (!validarCampo(document.getElementById("telefono"),"El teléfono ha de tener 9 cifras y empezar por 6, 8 o 9")) {
+        esValido = false;
+    }
+ 
+    return esValido;
+}
+
+function validarCampo(campo,msgError){
+
+    var esValido = true;
+    var validStyle = "solid 1px green";
+    var invalidStyle = "solid 1px red";
+
+    if (campo.checkValidity()) {
+        campo.style.border = validStyle;
+        if (campo.nextElementSibling.childElementCount > 0) {
+            campo.nextElementSibling.firstElementChild.remove();
+        }
+    } else {
+        esValido = false;
+        campo.style.border = invalidStyle;
+        mostrarError(campo, msgError);
+    }
+    return esValido;
+}
+
+function mostrarError(element,msgError){
+
+    if (element.nextElementSibling.childElementCount > 0) {
+        element.nextElementSibling.firstElementChild.remove();
+    }
+    var error = document.createElement("p");
+
+    if (element.value == "") {
+        error.appendChild(document.createTextNode("Campo requerido."));
+    } else {
+        error.appendChild(document.createTextNode(msgError));
+    }
+    element.nextElementSibling.appendChild(error);
+}
+
+
+function addTienda(){
+
+    if(validarForm()){
+        var tienda = {
+            id:1,
+            nombre : document.getElementById("nombre").value,
+            direccion : document.getElementById("direccion").value,
+            localidad : document.getElementById("localidad").value,
+            telefono : document.getElementById("telefono").value
+        }
+        document.querySelector(".form").remove();
+        console.log(JSON.stringify(tienda));
+        switch(metodoElegido){
+            case "xhr": //postTiendaXHR()
+                break;
+            case "fetch": //postTiendaFetch()
+                break;
+            case "jquery": postTiendajQuery(tienda)
+                break;
+        }
+
+    }
 }
 
 function buscarTienda(){
@@ -329,7 +441,6 @@ function buscarTienda(){
             
         }else{
             alert("ID de Tienda inválido");
-
         }
 
     }else{

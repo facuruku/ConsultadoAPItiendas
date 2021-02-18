@@ -2,6 +2,31 @@ $bgColor: rgb(8, 68, 26);
 $txtColor: white;
 $errorColor:red;
 
+@mixin border-box{
+    border: solid 1px $bgColor;
+    border-radius: 10px 10px;
+    box-shadow: 2px 2px 5px lighten($bgColor, 60%);
+    padding: 10px;
+    margin: 10px;
+}
+@mixin button-normal{
+    border-color: $bgColor;
+    margin: 10px;
+    background-color: lighten($bgColor, 60%);
+    color:$bgColor;
+    font-weight: bold;
+}
+
+@mixin button-hover{
+    background-color: lighten($bgColor, 50%);
+
+}
+
+@mixin button-active{
+    background-color: $bgColor;
+    color: $txtColor;
+}
+
 html,body{
     margin:0px;
     height: 100%;
@@ -27,21 +52,16 @@ header{
         margin-top: 10%;
 
         button{
-            border-color: $bgColor;
-            margin: 10px;
-            background-color: lighten($bgColor, 60%);
-            color:$bgColor;
-            font-weight: bold;
+            @include button-normal();
         }
         button:hover{
-            background-color: lighten($bgColor, 50%);
+            @include button-hover();
         }
         button:active{
-            background-color: $bgColor;
-            color: $txtColor;
+            @include button-active();
         }
-
     }
+
     #menu{
         display: flex;
         flex-flow: row nowrap;
@@ -66,21 +86,70 @@ header{
                 cursor: pointer;
                 background-color: rgba(0, 0, 0, 0.274);
             }
-            
+        }
+    }
+
+    .form{
+
+        @include border-box();
+        width: 78%;
+        animation-name: mostrarForm;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-duration: 2s;
+        animation-timing-function: linear;
+        animation-play-state: paused;
+
+        h2{
+            color:lighten($bgColor,20%);
+        }
+        .rowInput {
+            display: flex;
+            flex-flow: row nowrap;
+            margin-bottom: 30px;
+            width: 100%;
+            justify-content: space-around;
+
         }
         
+        .rowInput:last-of-type {
+            justify-content: flex-end;
+
+        }
+        .inputField {
+            display: flex;
+            flex-flow: column nowrap;
+            width: 48%;
+        }
+        input{
+            border-radius: 5px 5px;
+            padding: 8px;
+        }
+        input:focus{
+            outline: none;
+        }
+        
+        .error{
+            color:$errorColor;
+        }
+        button{
+            @include button-normal();
+        }
+        button:hover{
+            @include button-hover();
+        }
+        button:active{
+            @include button-active();
+        }
     }
+
     .tiendas {
         display: flex;
         flex-flow: column nowrap;
         width: 80%;
 
         #tienda {
-            border: solid 1px $bgColor;
-            border-radius: 10px 10px;
-            box-shadow: 2px 2px 5px lighten($bgColor, 60%);
-            padding: 10px;
-            margin: 10px;
+            @include border-box();
 
             h2 {
                 color: $bgColor;
@@ -99,6 +168,7 @@ header{
     animation-timing-function: linear;
 
 }
+
 @keyframes girar {
     from {
         transform: rotate(-360deg);
@@ -107,6 +177,18 @@ header{
     to {
         transform: rotate(0deg);
     }
+}
+
+@keyframes mostrarForm {
+      0% {
+          height: 0%;
+      }
+      50% {
+          height: 50%;
+      }
+      100% {
+          height: 100%;
+      }
 }
 
 #error{

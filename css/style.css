@@ -48,6 +48,51 @@ header {
       .contenido #menu .buscador img:hover {
         cursor: pointer;
         background-color: rgba(0, 0, 0, 0.274); }
+  .contenido .form {
+    border: solid 1px #08441a;
+    border-radius: 10px 10px;
+    box-shadow: 2px 2px 5px #8cf2ab;
+    padding: 10px;
+    margin: 10px;
+    width: 78%;
+    animation-name: mostrarForm;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-play-state: paused; }
+    .contenido .form h2 {
+      color: #139f3d; }
+    .contenido .form .rowInput {
+      display: flex;
+      flex-flow: row nowrap;
+      margin-bottom: 30px;
+      width: 100%;
+      justify-content: space-around; }
+    .contenido .form .rowInput:last-of-type {
+      justify-content: flex-end; }
+    .contenido .form .inputField {
+      display: flex;
+      flex-flow: column nowrap;
+      width: 48%; }
+    .contenido .form input {
+      border-radius: 5px 5px;
+      padding: 8px; }
+    .contenido .form input:focus {
+      outline: none; }
+    .contenido .form .error {
+      color: red; }
+    .contenido .form button {
+      border-color: #08441a;
+      margin: 10px;
+      background-color: #8cf2ab;
+      color: #08441a;
+      font-weight: bold; }
+    .contenido .form button:hover {
+      background-color: #5fec89; }
+    .contenido .form button:active {
+      background-color: #08441a;
+      color: white; }
   .contenido .tiendas {
     display: flex;
     flex-flow: column nowrap;
@@ -75,6 +120,14 @@ header {
     transform: rotate(-360deg); }
   to {
     transform: rotate(0deg); } }
+
+@keyframes mostrarForm {
+  0% {
+    height: 0%; }
+  50% {
+    height: 50%; }
+  100% {
+    height: 100%; } }
 
 #error {
   color: red; }

@@ -18,6 +18,7 @@
 
     <section class="contenido">
 
+        
         <div class="metodo">
             <h3>Elige el método para realizar AJAX</h3>
             <button id="xhr">XHR</button>
@@ -28,7 +29,44 @@
         <img src="./img/carga.png" id="carga" alt="Cargando"/>
 
     </section>
-    
+
+    <template id="form-template">
+
+         <div class="form">
+            <h2>Nueva Empresa</h2>
+                    
+                    <div class="rowInput">
+                        <div class="inputField">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" value="" placeholder="Nombre" pattern="^[a-z,A-Z]+([\s][[a-z,A-Z,\d]+)*$" required>
+                            <div class="error"></div>
+                        </div>
+                        
+                        <div class="inputField">
+                            <label for="apellidos">Dirección</label>
+                            <input type="text" id="direccion" name="direccion" value="" placeholder="Apellidos" pattern="^([a-z,A-Z]+.?)+([\s][a-z,A-Z]+(.?[\d]+)?)*$" required>
+                            <div class="error"></div>
+                        </div>
+                    
+                    </div>
+
+                    <div class="rowInput">
+                        <div class="inputField">
+                            <label for="telefono">Localidad</label>
+                            <input type="text" id="localidad" name="localidad" value="" placeholder="Localidad de la empresa" pattern="^[a-z,A-Z]+([\s][[a-z,A-Z,\d]+)*$" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="inputField">
+                            <label for="cp">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" value="" placeholder="Teléfono de la empresa" pattern="^[6,8,9][\d]{8}$" required>
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="rowInput">
+                        <button>Añadir Tienda</button>
+                    </div>
+        </div>
+    </template>
     
     <script src="./js/main.js" type="module"></script>
 </body>
